@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+        <title>A Web Page</title>
+    </head>
+
+    <body>
+        <style>
+            h3 {
+                padding: 2px;
+                margin: 0px;
+            }
+        
+            .form_spacing {
+                margin-left: 2%;
+            }
+            h4 {
+                padding: 2px;
+                margin: 0px;
+            }
+        </style>
+
+        <h1>The Dojo Message Board</h1>
+        <hr>
+
+        <% if(typeof(errors) != 'undefined' ) { %>
+            <% for (var x in errors) { %>
+             <h3><%= errors[x].message %></h3>
+            <% } %>
+            <br>
+            <a href="/">Back to Message Board</a>
+        <% } else { %>
+
+        <form action="/add_message" method='post'>
+            Name: <input type="text" name='author'><br>
+            Message: <br> <textarea name="text" cols="40" rows="5"></textarea><br>
+            <input type="submit" value='Post Message'>
+        </form>
+        <br>
+        <% for (let i=0; i<messages.length; i++){ %>
+            <h3>Name: <%= messages[i].author %></h3>
+            <h3>Message: <%= messages[i].text %></h3>
+
+            <div class='form_spacing'>
+                <% for (let j=0; j<messages[i].comments.length; j++ ){ %>
+                    <h4>Name: <%= messages[i].comments[j].author %></h4>
+                    <h4>Message: <%= messages[i].comments[j].text %></h4>
+                    <br>
+                <% } %>
+                <form action="/add_comment/<%=messages[i]._id%>" method='post'>
+                    Name: <input type="text" name='author'><br>
+                    Message: <br> <textarea name="text" cols="40" rows="5"></textarea><br>
+                    <input type="submit" value='Post Comment'>
+                </form>
+            </div>
+            <% } %>
+        <% } %>
+    </body>
+</html>
